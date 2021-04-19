@@ -26,6 +26,10 @@ jar {
     }
 }
 
+application {
+    mainClass.set('com.example.Main')
+}
+
 tasks.withType(JavaCompile) {
     options.compilerArgs += "--enable-preview"
 }
@@ -36,10 +40,6 @@ tasks.withType(JavaExec) {
 
 tasks.withType(Test) {
     jvmArgs += "--enable-preview"
-}
-
-application {
-    mainClassName = 'com.example.Main'
 }
 
 run {
