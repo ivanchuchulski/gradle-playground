@@ -1,5 +1,7 @@
 plugins {
     id 'application'
+    // https://github.com/gmazzo/gradle-buildconfig-plugin
+    id "com.github.gmazzo.buildconfig" version "3.0.0"
 }
 
 group 'org.example'
@@ -24,10 +26,6 @@ jar {
     }
 }
 
-application {
-    mainClassName = 'com.example.Main'
-}
-
 tasks.withType(JavaCompile) {
     options.compilerArgs += "--enable-preview"
 }
@@ -39,3 +37,28 @@ tasks.withType(JavaExec) {
 tasks.withType(Test) {
     jvmArgs += "--enable-preview"
 }
+
+application {
+    mainClassName = 'com.example.Main'
+}
+
+run {
+    args findProperty('myPropName')
+}
+
+tasks.register('hello') {
+    doLast {
+        println 'hello'
+        println 'value of prop ' + myPropName
+        println 'value of prop ' + findProperty('myPropName')
+    }
+}
+buildConfig {
+    className("MyConfig")   // forces the class name. Defaults to 'BuildConfig'
+    packageName("com.example")  // forces the package. Defaults to '${project.group}'
+
+    useJavaOutput() // forces the outputType to 'java'
+    def prop = findProperty('myPropName')
+    buildConfigField('String', 'APP_SECRET', "\"${findProperty('myPropName')}\"")
+}
+

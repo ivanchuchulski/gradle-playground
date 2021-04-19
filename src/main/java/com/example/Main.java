@@ -6,5 +6,9 @@ public class Main {
 
         Point point = new Point(5.0, -0.3);
         System.out.println(point);
+
+        System.out.println(args[0]);
+
+         System.out.println(MyConfig.APP_SECRET);
     }
 }
